@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import subprocess
-
+import time
 
 class SingleFile(object):
     def __init__(self, chrome_cwd, single_file_cwd):
@@ -26,5 +26,10 @@ class SingleFile(object):
 
 
 if __name__ == '__main__':
-    single_file = SingleFile(chrome_cwd="/usr/bin/google-chrome-stable", single_file_cwd="/root/single-file-cli")
-    print(single_file.execute("https://baidu.com"))
+    start_time = time.time()
+    single_file = SingleFile(chrome_cwd="/usr/bin/google-chrome-stable", single_file_cwd="/workspaces/workflow-flask/PySingleFile/single-file-cli")
+    res = single_file.execute("https://pornhub.com")
+    with open(r'tmp2.html', mode='w') as fw:
+        fw.write(res)
+        fw.flush()
+    print(f'==>cost = {time.time()- start_time} ms')

@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-
 from flask import Flask
 from flask import request
 
 from singlefile import SingleFile
 
 app = Flask(__name__)
-singleFile = SingleFile(chrome_cwd="/usr/bin/google-chrome-stable", single_file_cwd="/root/single-file-cli")
+singleFile = SingleFile(chrome_cwd="/usr/bin/google-chrome-stable", single_file_cwd="/workspaces/single-file-cli")
 
 
 @app.route("/")
@@ -14,9 +13,12 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 
-@app.route("/singleFile", methods=['GET'])
+@app.route("/singleFile", methods=['GET', 'POST'])
 def single_file():
-    url = request.args.get("url")
+    if request.method == 'POST':
+        url = request.get_json()['url']
+    else:
+        url = request.args.get("url")
     return singleFile.execute(url)
 
 
